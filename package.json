@@ -1,0 +1,49 @@
+{
+  "name": "relation-chart",
+  "version": "1.1.5",
+  "description": "A relation chart library based on D3.js force",
+  "main": "./dist/",
+  "scripts": {
+    "build:dev": "webpack --config webpack.dev.js",
+    "build:prod": "webpack --config webpack.prod.js",
+    "start": "webpack-dev-server --open --config webpack.dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiedajian/relation-chart.git"
+  },
+  "files": [
+    "dist",
+    "examples/demo1"
+  ],
+  "keywords": [
+    "relation",
+    "chart",
+    "d3",
+    "force",
+    "javascript",
+    "人物关系图"
+  ],
+  "author": "xiedajian <172265972@qq.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xiedajian/relation-chart/issues"
+  },
+  "homepage": "https://github.com/xiedajian/relation-chart#readme",
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "babel-loader": "^8.0.5",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.5",
+    "html-webpack-plugin": "^3.2.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.9.0",
+    "webpack-merge": "^4.2.2"
+  },
+  "dependencies": {
+    "d3": "^5.0.0"
+  }
+}
