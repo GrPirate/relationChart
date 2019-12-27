@@ -77,10 +77,38 @@ const defaultConfig = {
   typeMap: {}
 }
 
+function throttle (fun, delay) {
+  let last, deferTimer
+  return function (args) {
+      let that = this
+      let _args = arguments
+      let now = +new Date()
+      if (last && now < last + delay) {
+          clearTimeout(deferTimer)
+          deferTimer = setTimeout(function () {
+              last = now
+              fun.apply(that, _args)
+          }, delay)
+      }else {
+          last = now
+          fun.apply(that,_args)
+      }
+  }
+}
+
+function debounce(fun, delay) {
+  return function (args) {
+      let that = this
+      let _args = args
+      clearTimeout(fun.id)
+      fun.id = setTimeout(function () {
+          fun.call(that, _args)
+      }, delay)
+  }
+}
+
 export default class RelationChart {
   constructor(selector, data, configs = {}) {
-    const map = d3.select(selector)
-    debugger
     let mapW = parseInt(d3.select(selector).style('width'))
     let mapH = parseInt(d3.select(selector).style('height'))
 
@@ -114,6 +142,13 @@ export default class RelationChart {
     // 创建力学模拟器
     this.initSimulation()
     this.emit = this.emit.bind(this)
+    
+    window.onresize = () => {
+      throttle(() => {
+        let svg = document.querySelector('.svgclass')
+        svg.style.width = document.querySelector('.relation-main').clientWidth
+      }, 1000)()
+    } 
   }
 
   flatten() {

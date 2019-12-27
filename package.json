@@ -1,6 +1,6 @@
 {
-  "name": "relation-chart",
-  "version": "1.1.5",
+  "name": "relationChart",
+  "version": "1.0.0",
   "description": "A relation chart library based on D3.js force",
   "main": "./dist/",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xiedajian/relation-chart.git"
+    "url": "git+https://github.com/GrPirate/relationChart.git"
   },
   "files": [
     "dist",
@@ -24,12 +24,8 @@
     "javascript",
     "人物关系图"
   ],
-  "author": "xiedajian <172265972@qq.com>",
+  "author": "dahaizei <735061202@qq.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/xiedajian/relation-chart/issues"
-  },
-  "homepage": "https://github.com/xiedajian/relation-chart#readme",
   "devDependencies": {
     "@babel/core": "^7.3.4",
     "@babel/preset-env": "^7.3.4",
