@@ -96,17 +96,6 @@ function throttle (fun, delay) {
   }
 }
 
-function debounce(fun, delay) {
-  return function (args) {
-      let that = this
-      let _args = args
-      clearTimeout(fun.id)
-      fun.id = setTimeout(function () {
-          fun.call(that, _args)
-      }, delay)
-  }
-}
-
 export default class RelationChart {
   constructor(selector, data, configs = {}) {
     let mapW = parseInt(d3.select(selector).style('width'))
@@ -149,6 +138,12 @@ export default class RelationChart {
         svg.style.width = document.querySelector('.relation-main').clientWidth
       }, 1000)()
     } 
+    window.onscroll = () => {
+      throttle(() => {
+        let svg = document.querySelector('.svgclass')
+        svg.style.height = document.querySelector('#map').offsetHeight
+      }, 1000)()
+    }
   }
 
   flatten() {
@@ -196,6 +191,9 @@ export default class RelationChart {
     recurse(this.nodeData)
     console.log(links)
     this.dataLinks = links
+  }
+  setPosition() {
+    this.simulation.force('center', d3.forceCenter(this.config.width / 2, this.config.height / 2))
   }
   // 创建力学模拟器
   initSimulation() {
@@ -288,7 +286,14 @@ export default class RelationChart {
       .attr('height', this.config.r * 4)
       .style('cursor', 'pointer')
       .style('fill', d => {
-        return this.typeMap[d.type]['fill'] || '#5691FF'
+        let fill = '#5691FF'
+        if (this.typeMap[d.type]['label'] == '自然人') {
+          let hrID = d.housRoleId || '99'
+          fill = this.typeMap[d.type].houseConfig[hrID].fill
+        } else {
+          fill = this.typeMap[d.type]['fill'] || '#5691FF'
+        }
+        return fill
       })
       .transition()
       .duration(2000)
@@ -453,7 +458,16 @@ export default class RelationChart {
       .attr('fill', function(d) {
         return 'url(#avatar' + d.id + ')'
       })
-      .attr('stroke', d => this.typeMap[d.type]['border'] || '#436FC0')
+      .attr('stroke', d => {
+        let border = '#436FC0'
+        if (this.typeMap[d.type]['label'] == '自然人') {
+          let hrID = d.housRoleId || '99'
+          border = this.typeMap[d.type].houseConfig[hrID].border
+        } else {
+          border = this.typeMap[d.type]['border'] || '#436FC0'
+        }
+        return border
+      })
       .attr('stroke-width', this.config.strokeWidth)
       .attr('r', this.config.r)
       .on('mouseover', function(d) {
@@ -465,7 +479,16 @@ export default class RelationChart {
       })
       .on('mouseout', function(d) {
         d3.select(this).attr('stroke-width', that.config.strokeWidth)
-        d3.select(this).attr('stroke', d => that.typeMap[d.type]['border'] || '#436FC0')
+        d3.select(this).attr('stroke', d => {
+          let border = '#436FC0'
+          if (that.typeMap[d.type]['label'] == '自然人') {
+            let hrID = d.housRoleId || '99'
+            border = that.typeMap[d.type].houseConfig[hrID].border
+          } else {
+            border = that.typeMap[d.type]['border'] || '#436FC0'
+          }
+          return border
+        })
         if (that.config.isHighLight) {
           that.highlightObject(null)
         }

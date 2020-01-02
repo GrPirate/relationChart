@@ -217,4 +217,5 @@ const defaultConfig = {
 }
 
 var map = document.querySelector('#map')
-console.log(new RelationChart(map, datas, defaultConfig))
+window.RC = new RelationChart(map, datas, defaultConfig)
+console.log(RC)
